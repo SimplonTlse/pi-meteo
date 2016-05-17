@@ -1,4 +1,37 @@
-var tableauTemp = [];
+  var myFirebaseRef = new Firebase("https://grovepi-station-v1.firebaseio.com/");
+  myFirebaseRef.child("test01").limitToLast(60*12).once("value", 
+    function(snapshot) {
+    
+
+    data = snapshot.val();
+    var tableau = [];
+    for (var i in data) {
+        tableau.push(data[i]);
+    }
+
+
+    var tempData = [];
+
+    for (var i in tableau) {
+        d = tableau[i];
+        tempData.push({
+            y: d.temp,
+            x: new Date(d.ts)
+        });
+
+    }
+var tableauX = [];
+    for (pas = 0;pas < tableau.length;pas++){
+          echantillon = tableau[pas]  ;
+          tempData.push(echantillon.temp)
+          tableauX.push(new Date(echantillon.ts*1000))
+          }
+console.log(tableauX)
+
+
+
+
+/*var tableauTemp = [];
 var pas;
 var tableauX =[];
 for (pas = 0; pas < 1001;pas++){
@@ -8,7 +41,7 @@ for (pas = 0; pas < 1001;pas++){
     tableauX.push(new Date(axeX*1000*60))
 }
 console.log(tableauTemp);
-console.log(tableauX);
+console.log(tableauX);*/
 
 var ctx = document.getElementById("myChart");
 var myChart = new Chart(ctx, {
@@ -21,20 +54,20 @@ var myChart = new Chart(ctx, {
             lineTension: 0.1,
             backgroundColor: "rgba(75,192,192,0.4)",
             borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data:tableauTemp
+            //borderCapStyle: 'butt',
+            //borderDash: [],
+            //borderDashOffset: 0.0,
+            //borderJoinStyle: 'miter',
+            //pointBorderColor: "rgba(75,192,192,1)",
+            //pointBackgroundColor: "#fff",
+            //pointBorderWidth: 1,
+            //pointHoverRadius: 5,
+            //pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            //pointHoverBorderColor: "rgba(220,220,220,1)",
+            //pointHoverBorderWidth: 2,
+           // pointRadius: 1,
+            //pointHitRadius: 10,
+            data:tempData
         }]
     },
     options: {
@@ -77,8 +110,9 @@ var myChart = new Chart(ctx, {
                         tooltipFormat: ''
                     }
 
-}
-}]
-}
-}
+                }
+            }]
+        }
+    }
+});
 });
